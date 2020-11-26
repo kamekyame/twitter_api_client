@@ -1,6 +1,30 @@
 # Twitter API v2 (early access) client for Deno
 https://developer.twitter.com/en/docs/twitter-api/early-access
 ## Tweets
+
+### Lookup
+#### Retrieve a single Tweet with an ID
+```typescript
+import { getTweet } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/lookup.ts";
+
+const bearerToken = ""; // bearerToken
+
+const res = await getTweet(bearerToken,"1067094924124872705"/*,option*/);
+```
+
+
+#### Retrieve multiple Tweets with a list of IDs
+```typescript
+import { getTweets } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/lookup.ts";
+
+const bearerToken = ""; // bearerToken
+
+const res = await getTweets(bearerToken, {
+  ids: ["1261326399320715264", "1278347468690915330"],
+  /* option */
+});
+```
+
 ### Filtered Stream
 
 #### Add or delete rules from your stream
