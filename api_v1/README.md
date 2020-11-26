@@ -4,7 +4,7 @@ https://developer.twitter.com/en/docs/twitter-api/v1
 ### Post, retrieve, and engage with Tweets
 #### POST statuses/update
 ```typescript
-import { statusUpdate } from "./update.ts";
+import { statusUpdate } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/update.ts";
 
 const res = await statusUpdate({
   consumerKey: "",

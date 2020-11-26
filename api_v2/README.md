@@ -5,7 +5,7 @@ https://developer.twitter.com/en/docs/twitter-api/early-access
 
 #### Add or delete rules from your stream
 ```typescript
-import { changeRules } from "./filtered_stream.ts";
+import { changeRules } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
@@ -33,7 +33,7 @@ await changeRules("bearerToken","rules",true);
 
 #### Retrieve your stream's rules
 ```typescript
-import { getRules } from "./filtered_stream.ts";
+import { getRules } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
@@ -42,7 +42,7 @@ const res = await getRules(bearerToken);
 
 #### Connect to the stream
 ```typescript
-import { connectStream ,StreamTweet} from "./filtered_stream.ts";
+import { connectStream ,StreamTweet} from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
