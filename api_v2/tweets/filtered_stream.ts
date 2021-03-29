@@ -201,18 +201,22 @@ export async function connectStream(
 
   console.log("Streaming...");
   const iterator = res.body?.getIterator();
-  if (iterator) {
-    for await (const a of iterator) {
-      try {
-        const data = new TextDecoder().decode(a);
-        if (data !== "\r\n") {
-          //console.log(JSON.parse(data));
+  if (res.status === 200) {
+    if (iterator) {
+      for await (const a of iterator) {
+        try {
+          const data = new TextDecoder().decode(a);
+          if (data !== "\r\n") {
+            //console.log(JSON.parse(data));
 
-          callback(JSON.parse(data) as StreamTweet);
+            callback(JSON.parse(data) as StreamTweet);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     }
+  } else {
+    console.log("Code:" + res.status, res);
   }
 }
