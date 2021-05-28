@@ -16,7 +16,7 @@ export interface TweetObject {
   author_id?: string;
   context_annotations?: ContextAnnotation[];
   conversation_id?: string;
-  created_at?: Date;
+  created_at?: string;
   in_reply_to_user_id?: string;
   referenced_tweets?: {
     type: ReferencedTweetsType;
