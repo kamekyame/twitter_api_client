@@ -5,7 +5,7 @@ import { IncludesObject, TweetObject } from "../data_interface/tweet.ts";
 export interface StreamParam {
   "expansions"?: {
     "attachments.poll_ids"?: boolean;
-    "attachments.media_kets"?: boolean;
+    "attachments.media_keys"?: boolean;
     "author_id"?: boolean;
     "entities.mentions.username"?: boolean;
     "geo.place_id"?: boolean;
@@ -122,7 +122,7 @@ export interface StreamTweet {
  * @param {string} bearerToken
  * @param {RequestsBody} rules
  * @param {boolean} [dry_run]
- * @return {ResponseBody} 
+ * @return {ResponseBody}
  */
 export async function changeRules(
   bearerToken: string,
@@ -156,7 +156,7 @@ export async function changeRules(
  * @export
  * @param {string} bearerToken
  * @param {string} [ids]
- * @return {ResponseBody} 
+ * @return {ResponseBody}
  */
 export async function getRules(bearerToken: string, ids?: string) {
   const url = getUrl(endpoints.api_v2.filterd_stream.rules);
