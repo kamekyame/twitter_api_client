@@ -19,6 +19,7 @@ export interface MediaObject {
     view_count: number;
   }; //need oauth1.0a
   preview_image_url?: string;
+  url?: string;
   promoted_metrics?: {
     playback_0_count: number;
     playback_25_count: number;
