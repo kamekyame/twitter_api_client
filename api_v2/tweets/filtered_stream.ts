@@ -199,11 +199,13 @@ export async function connectStream(
     },
   );
 
-  console.log("Streaming...");
-  const iterator = res.body?.getIterator();
+  console.log("Connecting...");
   if (res.status === 200) {
-    if (iterator) {
-      for await (const a of iterator) {
+    console.log("Connected");
+    //const iterator = res.body?.getIterator();
+    if (res.body) {
+      for await (const a of res.body) {
+        console.log("a", a);
         try {
           const data = new TextDecoder().decode(a);
           if (data !== "\r\n") {
@@ -217,6 +219,9 @@ export async function connectStream(
       }
     }
   } else {
-    console.log("Code:" + res.status, res);
+    console.log("Code:" + res.status, res, await res.json());
+    if (res.status === 503) {
+      console.log("503 Service Unavaliable.", "Reconnect after 10 sec.");
+    }
   }
 }
