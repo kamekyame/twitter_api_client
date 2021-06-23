@@ -208,11 +208,22 @@ export async function connectStream(
         console.log("a", a);
         try {
           const data = new TextDecoder().decode(a);
-          if (data !== "\r\n") {
-            //console.log(JSON.parse(data));
-
-            callback(JSON.parse(data) as StreamTweet);
+          if (data === "\r\n") continue;
+          const json = JSON.parse(data);
+          if (json.errors) {
+            (json.errors as any[]).forEach((e) => {
+              console.log("Error", e.detail);
+            });
+            console.log(
+              "Receive Error.",
+              "Reconnect after 10 sec...",
+            );
+            setTimeout(() => arguments.callee(), 10000);
+            return;
           }
+          //console.log(JSON.parse(data));
+
+          callback(json as StreamTweet);
         } catch (e) {
           console.log(e);
         }
@@ -221,7 +232,9 @@ export async function connectStream(
   } else {
     console.log("Code:" + res.status, res, await res.json());
     if (res.status === 503) {
-      console.log("503 Service Unavaliable.", "Reconnect after 10 sec.");
+      console.log("503 Service Unavaliable.", "Reconnect after 10 sec...");
+      setTimeout(() => arguments.callee(), 10000);
+      return;
     }
   }
 }
