@@ -202,39 +202,47 @@ export async function connectStream(
   console.log("Connecting...");
   if (res.status === 200) {
     console.log("Connected");
-    //const iterator = res.body?.getIterator();
     if (res.body) {
-      for await (const a of res.body) {
-        console.log("a", a);
-        try {
-          const data = new TextDecoder().decode(a);
-          if (data === "\r\n") continue;
-          const json = JSON.parse(data);
-          if (json.errors) {
-            (json.errors as any[]).forEach((e) => {
-              console.log("Error", e.detail);
-            });
-            console.log(
-              "Receive Error.",
-              "Reconnect after 10 sec...",
-            );
-            setTimeout(() => arguments.callee(), 10000);
-            return;
-          }
-          //console.log(JSON.parse(data));
+      try {
+        for await (const a of res.body) {
+          try {
+            const data = new TextDecoder().decode(a);
+            if (data === "\r\n") continue;
+            const json = JSON.parse(data);
+            if (json.errors) {
+              (json.errors as any[]).forEach((e) => {
+                console.log("Error", e.detail);
+              });
+              console.log(
+                "Receive Error.",
+                "Reconnect after 10 sec...",
+              );
+              setTimeout(reconnect, 10000);
+              return;
+            }
+            //console.log(JSON.parse(data));
 
-          callback(json as StreamTweet);
-        } catch (e) {
-          console.log(e);
+            callback(json as StreamTweet);
+          } catch (e) {
+            console.log(e);
+          }
         }
+      } catch (e) {
+        console.log("ReadableStream Error", "Reconnecting...");
+        reconnect();
       }
     }
   } else {
-    console.log("Code:" + res.status, res, await res.json());
     if (res.status === 503) {
       console.log("503 Service Unavaliable.", "Reconnect after 10 sec...");
-      setTimeout(() => arguments.callee(), 10000);
+      setTimeout(reconnect, 10000);
       return;
+    } else {
+      console.log("Code:" + res.status, res, await res.json());
     }
+  }
+
+  function reconnect() {
+    connectStream(arguments[0], arguments[1], arguments[2]);
   }
 }
