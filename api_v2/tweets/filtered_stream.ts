@@ -187,6 +187,9 @@ export async function connectStream(
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
 ) {
+  const reconnect = () => {
+    connectStream(arguments[0], arguments[1], arguments[2]);
+  };
   const url = getUrl(endpoints.api_v2.filterd_stream.connect);
   if (option) addParamOption(url, option);
   //console.log(url.toString());
@@ -239,10 +242,7 @@ export async function connectStream(
       return;
     } else {
       console.log("Code:" + res.status, res, await res.json());
+      throw Error("Code:" + res.status);
     }
-  }
-
-  function reconnect() {
-    connectStream(arguments[0], arguments[1], arguments[2]);
   }
 }
