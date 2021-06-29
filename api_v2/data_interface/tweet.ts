@@ -19,7 +19,7 @@ export interface TweetObject {
   created_at?: string;
   in_reply_to_user_id?: string;
   referenced_tweets?: {
-    type: ReferencedTweetsType;
+    type: "retweeted" | "quoted" | "replied_to";
     id: string;
   }[];
   geo?: {
@@ -69,10 +69,4 @@ export interface IncludesObject {
   places?: PlaceObject[];
   media?: MediaObject[];
   polls?: PollObject;
-}
-
-export const enum ReferencedTweetsType {
-  retweeted,
-  quoted,
-  replied_to,
 }
