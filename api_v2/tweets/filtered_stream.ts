@@ -115,6 +115,15 @@ export interface StreamTweet {
   matching_rules: { id: string; tag: string }[];
 }
 
+interface StreamRes extends StreamTweet {
+  errors?: {
+    title: string;
+    disconnect_type: string;
+    detail: string;
+    type: string;
+  }[];
+}
+
 /**
  * Add or delete rules from your stream.
  * https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
@@ -187,11 +196,15 @@ export async function connectStream(
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
 ) {
-  const reconnect = () => {
-    connectStream(arguments[0], arguments[1], arguments[2]);
+  const reconnect = (error: string, sec: number) => {
+    console.log(error, `Reconnect after ${sec} sec...`);
+    setTimeout(
+      () => connectStream(arguments[0], arguments[1], arguments[2]),
+      sec * 1000,
+    );
   };
   const url = getUrl(endpoints.api_v2.filterd_stream.connect);
-  if (option) addParamOption(url, option);
+  addParamOption(url, option);
   //console.log(url.toString());
   const res = await fetch(
     url,
@@ -206,39 +219,46 @@ export async function connectStream(
   if (res.status === 200) {
     console.log("Connected");
     if (res.body) {
+      const reconnect = (error: string, sec: number) => {
+        console.log(error, `Reconnect after ${sec} sec...`);
+        setTimeout(
+          () => connectStream(arguments[0], arguments[1], arguments[2]),
+          sec * 1000,
+        );
+      };
       try {
         for await (const a of res.body) {
           try {
             const data = new TextDecoder().decode(a);
             if (data === "\r\n") continue;
-            const json = JSON.parse(data);
+            const json = JSON.parse(data) as StreamRes;
             if (json.errors) {
-              (json.errors as any[]).forEach((e) => {
+              json.errors.forEach((e) => {
                 console.log("Error", e.detail);
               });
-              console.log(
-                "Receive Error.",
-                "Reconnect after 10 sec...",
-              );
-              setTimeout(reconnect, 10000);
+              reconnect("Receive Error.", 10);
               return;
-            }
-            //console.log(JSON.parse(data));
+            } else {
+              //console.log(JSON.parse(data));
 
-            callback(json as StreamTweet);
+              setTimeout(() => callback(json as StreamTweet), 0);
+            }
           } catch (e) {
+            if (e instanceof SyntaxError) continue;
             console.log(e);
+            return;
           }
         }
       } catch (e) {
-        console.log("ReadableStream Error", "Reconnecting...");
-        reconnect();
+        if (e instanceof Error) {
+          reconnect("Response body error", 0);
+          return;
+        } else console.log(e);
       }
     }
   } else {
     if (res.status === 503) {
-      console.log("503 Service Unavaliable.", "Reconnect after 10 sec...");
-      setTimeout(reconnect, 10000);
+      reconnect("503 Service Unavaliable.", 10);
       return;
     } else {
       console.log("Code:" + res.status, res, await res.json());
