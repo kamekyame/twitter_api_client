@@ -237,7 +237,7 @@ export async function connectStream(
             const json = JSON.parse(data) as StreamRes;
             if (json.errors) {
               json.errors.forEach((e) => {
-                console.log("Error", e.detail);
+                console.log("Error", e);
               });
               reconnect("Receive Error.", 10);
               return;
