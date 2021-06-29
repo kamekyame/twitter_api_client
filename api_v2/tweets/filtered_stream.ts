@@ -196,8 +196,10 @@ export async function connectStream(
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
 ) {
+  const ac = new AbortController();
   const reconnect = (error: string, sec: number) => {
     console.log(error, `Reconnect after ${sec} sec...`);
+    ac.abort();
     setTimeout(
       () => connectStream(arguments[0], arguments[1], arguments[2]),
       sec * 1000,
@@ -212,6 +214,7 @@ export async function connectStream(
       headers: new Headers({
         "Authorization": `Bearer ${bearerToken}`,
       }),
+      signal: ac.signal,
     },
   );
 
