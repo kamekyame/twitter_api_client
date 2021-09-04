@@ -10,6 +10,7 @@ export const endpoints = {
       retweet(id: string) {
         return `/1.1/statuses/retweet/${id}.json`;
       },
+      home_timeline: "/1.1/statuses/home_timeline.json",
     },
   },
   api_v2: {
