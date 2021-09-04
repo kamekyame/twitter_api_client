@@ -1,5 +1,7 @@
 # Twitter API client for Deno(未完成)
 
+Sorry. README is japanese only.
+
 Twitter APIをDenoから利用するためのクライアントです。
 
 ## 注意点
