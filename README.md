@@ -11,6 +11,8 @@ Twitter APIをDenoから利用するためのクライアントです。
 - Twitter API v1.1
     - Tweets
         - statuses/update
+        - statuses/retweet
+        - statuses/home_timeline
 - Twitter API v2(Early Access)
     - Tweets
         - Lookup
