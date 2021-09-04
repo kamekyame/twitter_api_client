@@ -47,3 +47,20 @@ console.log(res);
 // res's interface is none.
 // need to create an appropriate interface.
 ```
+
+### Get Tweet timelines
+
+#### GET statuses/home_timeline
+
+```typescript
+import { statusHomeTimeline } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/home_timeline.ts";
+
+const res = await statusHomeTimeline({
+  consumerKey: "",
+  consumerSecret: "",
+  token: "",
+  tokenSecret: "",
+}, { count: 10, trim_user: true });
+
+console.log(res);
+```
