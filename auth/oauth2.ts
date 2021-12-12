@@ -1,4 +1,4 @@
-import { baFetch } from "https://kamekyame.github.io/deno_tools/http/mod.ts";
+import { baFetch } from "../deps.ts";
 
 import { endpoints, getUrl } from "../util.ts";
 
@@ -7,9 +7,9 @@ import { endpoints, getUrl } from "../util.ts";
  * https://developer.twitter.com/en/docs/authentication/oauth-2-0
  *
  * @export
- * @param {string} apiKey　
+ * @param {string} apiKey
  * @param {string} apiSecretKey
- * @return {string} Bearer Token 
+ * @return {string} Bearer Token
  */
 export async function getBearerToken(apiKey: string, apiSecretKey: string) {
   const res = await (await baFetch(

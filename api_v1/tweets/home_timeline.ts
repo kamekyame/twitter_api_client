@@ -3,10 +3,7 @@ POST statuses/home_timeline
 https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timelinehttps://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline
 */
 
-import {
-  oAuth1Fetch,
-  OAuth1Info,
-} from "https://kamekyame.github.io/deno_tools/http/mod.ts";
+import { oAuth1Fetch, OAuth1Info } from "../../deps.ts";
 
 import { addParamOption, endpoints, getUrl } from "../../util.ts";
 

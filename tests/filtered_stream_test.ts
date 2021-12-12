@@ -3,11 +3,7 @@ Filtered stream : https://developer.twitter.com/en/docs/twitter-api/tweets/filte
 */
 
 import "https://deno.land/x/dotenv/load.ts";
-import {
-  assert,
-  assertEquals,
-  assertObjectMatch,
-} from "https://deno.land/std/testing/asserts.ts";
+import { assert, assertEquals, assertObjectMatch } from "../deps-test.ts";
 
 import {
   changeRules,

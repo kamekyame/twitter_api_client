@@ -3,10 +3,7 @@ POST statuses/retweet/:id
 https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id
 */
 
-import {
-  oAuth1Fetch,
-  OAuth1Info,
-} from "https://kamekyame.github.io/deno_tools/http/mod.ts";
+import { oAuth1Fetch, OAuth1Info } from "../../deps.ts";
 
 import { addParamOption, endpoints, getUrl } from "../../util.ts";
 
