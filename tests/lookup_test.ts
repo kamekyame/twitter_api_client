@@ -1,5 +1,5 @@
 import "https://deno.land/x/dotenv/load.ts";
-import { assertEquals } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
+import { assertEquals } from "../deps-test.ts";
 
 import { getTweet, getTweets } from "../api_v2/tweets/lookup.ts";
 import { getBearerToken } from "../auth/oauth2.ts";

@@ -1,6 +1,6 @@
 import "https://deno.land/x/dotenv/load.ts";
 
-import { assertThrowsAsync } from "https://deno.land/std@v0.51.0/testing/asserts.ts";
+import { assertThrowsAsync } from "../deps-test.ts";
 
 import { getBearerToken } from "../auth/oauth2.ts";
 
