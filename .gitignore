@@ -1,3 +1,4 @@
 *_sample.ts
 .env
 test.ts
+test*.ts
