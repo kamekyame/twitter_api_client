@@ -1,30 +1,38 @@
-# Twitter API client for Deno(未完成)
+# Twitter API client for Deno
 
-Sorry. README is japanese only.
+![](https://img.shields.io/github/v/release/kamekyame/twitter_api_client)
 
-Twitter APIをDenoから利用するためのクライアントです。
+> ⚠️ **Important** This client is incomplete and breaking changes in the future. When you use this, beware of version updates.
 
-## 注意点
-- すべてTypeScriptで書かれているためJavascriptでは利用できません。
-- 実装されていない機能、動作が不完全な機能等あります。
-    - issue,PR等お待ちしております。
+## Features
 
-## 実装済みの機能
-- Twitter API v1.1
+- TypeScript support. (Arguments and return value for each endpoint has a type.)
+
+## Usage
+
+See each README.
+
+- [Twitter API v1.1](./api_v1/README.md)
+- [Twitter API v2(Early Access)](./api_v2/README.md)
+- [Authentication](./auth/README.md)
+
+## Implemented
+
+- Standard v1.1
     - Tweets
         - statuses/update
         - statuses/retweet
         - statuses/home_timeline
-- Twitter API v2(Early Access)
+- v2
     - Tweets
         - Lookup
         - Filtered stream
 
-※ 未実装の機能の中で欲しいものがありましたら、issueで投げてくだされば優先して作ります。
+## Contribute
 
-※ 実装済みの機能についても、不具合がありましたらissueお願いします。
+This client is imcomplete. So bug fix and new feature is welcome.
+Feel free to issue, PR.
 
-## 使用方法
-- [Twitter API v1.1](./api_v1/README.md)
-- [Twitter API v2(Early Access)](./api_v2/README.md)
-- [Authentication](./auth/README.md)
+## License
+
+[MIT](./LICENSE)
