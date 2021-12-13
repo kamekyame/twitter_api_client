@@ -7,7 +7,7 @@ import { oAuth1Fetch, OAuth1Info } from "../../deps.ts";
 
 import { addParamOption, endpoints, getUrl } from "../../util.ts";
 
-export interface UpdateParam {
+export interface HomeTimelineParam {
   count?: number;
   since_id?: string;
   max_id?: string;
@@ -21,12 +21,12 @@ export interface UpdateParam {
  * https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline
  * @export
  * @param {OAuth1Info} auth
- * @param {UpdateParam} param
+ * @param {HomeTimelineParam} param
  * @return {any}
  */
 export async function statusHomeTimeline(
   auth: OAuth1Info,
-  param: UpdateParam = {},
+  param: HomeTimelineParam = {},
 ) {
   const url = getUrl(endpoints.api_v1.tweets.home_timeline);
   addParamOption(url, param);
