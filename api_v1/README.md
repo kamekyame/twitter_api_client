@@ -4,6 +4,20 @@ https://developer.twitter.com/en/docs/twitter-api/v1
 
 ## Tweets
 
+### Search Tweets
+
+#### POST search/:product/:label
+
+```typescript
+import { PremiumSearch } from "https://kamekyame.github.io/twitter_api_client/mod.ts";
+
+const res = await PremiumSearch(auth, "fullarchive", "test", {
+  query: "Twitter API",
+});
+
+console.log(res);
+```
+
 ### Post, retrieve, and engage with Tweets
 
 #### POST statuses/update

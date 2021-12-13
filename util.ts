@@ -11,6 +11,15 @@ export const endpoints = {
         return `/1.1/statuses/retweet/${id}.json`;
       },
       home_timeline: "/1.1/statuses/home_timeline.json",
+      search(
+        premium?: { product: "30day" | "fullarchive"; label: string },
+      ) {
+        if (premium) {
+          return `/1.1/tweets/search/${premium.product}/${premium.label}.json`;
+        } else {
+          return `/1.1/tweets/search/tweets.json`;
+        }
+      },
     },
   },
   api_v2: {

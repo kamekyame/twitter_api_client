@@ -18,8 +18,9 @@ See each README.
 
 ## Implemented
 
-- Standard v1.1
+- v1.1
     - Tweets
+        - search/:product/:label (Premium)
         - statuses/update
         - statuses/retweet
         - statuses/home_timeline
