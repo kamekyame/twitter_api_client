@@ -1,3 +1,5 @@
+export { type OAuth1Info } from "./deps.ts";
+
 export * from "./api_v1/tweets/home_timeline.ts";
 export * from "./api_v1/tweets/retweet.ts";
 export * from "./api_v1/tweets/update.ts";
