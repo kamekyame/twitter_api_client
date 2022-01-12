@@ -82,21 +82,19 @@ export interface StreamParam {
   };
 }
 
-interface RequestRule {
+interface FilteredStreamRule {
   tag?: string;
   value: string;
-}
-interface ResponseRule extends RequestRule {
   id: string;
 }
 
-export interface RequestsBody {
-  add?: RequestRule[];
-  delete?: { ids: string[] };
-}
+// Specify both -> error : "Exactly one of either 'add' or 'delete' must be specified."
+export type FilteredStreamRuleReq =
+  | { add: Omit<FilteredStreamRule, "id">[]; delete?: undefined }
+  | { add?: undefined; delete: { ids: string[] } };
 
-export interface ResponseBody {
-  data?: ResponseRule[];
+export interface FilteredStreamRuleRes {
+  data?: FilteredStreamRule[];
   meta: {
     sent?: string;
     summary?: {
@@ -129,13 +127,13 @@ interface StreamRes extends StreamTweet {
  * https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
  * @export
  * @param {string} bearerToken
- * @param {RequestsBody} rules
+ * @param {FilteredStreamRuleReq} rules
  * @param {boolean} [dry_run]
- * @return {ResponseBody}
+ * @return {FilteredStreamRuleRes}
  */
 export async function changeRules(
   bearerToken: string,
-  rules: RequestsBody,
+  rules: FilteredStreamRuleReq,
   dry_run?: boolean,
 ) {
   const endPoint = getUrl(endpoints.api_v2.filterd_stream.rules);
@@ -153,7 +151,7 @@ export async function changeRules(
       }),
       body: JSON.stringify(rules),
     },
-  )).json() as ResponseBody;
+  )).json() as FilteredStreamRuleRes;
   //console.log(filterRes);
   return res;
 }
@@ -165,7 +163,7 @@ export async function changeRules(
  * @export
  * @param {string} bearerToken
  * @param {string} [ids]
- * @return {ResponseBody}
+ * @return {FilteredStreamRuleRes}
  */
 export async function getRules(bearerToken: string, ids?: string) {
   const url = getUrl(endpoints.api_v2.filterd_stream.rules);
@@ -179,7 +177,7 @@ export async function getRules(bearerToken: string, ids?: string) {
         "Authorization": `Bearer ${bearerToken}`,
       }),
     },
-  )).json() as ResponseBody;
+  )).json() as FilteredStreamRuleRes;
   return res;
 }
 
