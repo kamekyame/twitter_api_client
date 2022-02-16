@@ -220,13 +220,6 @@ export async function connectStream(
   if (res.status === 200) {
     console.log("Connected");
     if (res.body) {
-      const reconnect = (error: string, sec: number) => {
-        console.log(error, `Reconnect after ${sec} sec...`);
-        setTimeout(
-          () => connectStream(arguments[0], arguments[1], arguments[2]),
-          sec * 1000,
-        );
-      };
       try {
         for await (const a of res.body) {
           try {
@@ -251,10 +244,11 @@ export async function connectStream(
           }
         }
       } catch (e) {
+        console.log("for await catch", e);
         if (e instanceof Error) {
-          reconnect("Response body error", 0);
+          reconnect("Response body error.", 0);
           return;
-        } else console.log(e);
+        } // else console.log(e);
       }
     }
   } else {
