@@ -193,8 +193,9 @@ export async function connectStream(
   bearerToken: string,
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
+  abortController?: AbortController,
 ) {
-  const ac = new AbortController();
+  const ac = abortController || new AbortController();
   const reconnect = (error: string, sec: number) => {
     console.log(error, `Reconnect after ${sec} sec...`);
     ac.abort();
@@ -206,6 +207,7 @@ export async function connectStream(
   const url = getUrl(endpoints.api_v2.filterd_stream.connect);
   addParamOption(url, option);
   //console.log(url.toString());
+  console.log("Connecting...");
   const res = await fetch(
     url,
     {
@@ -216,7 +218,6 @@ export async function connectStream(
     },
   );
 
-  console.log("Connecting...");
   if (res.status === 200) {
     console.log("Connected");
     if (res.body) {
@@ -244,6 +245,10 @@ export async function connectStream(
           }
         }
       } catch (e) {
+        if (e instanceof DOMException && e.name === "AbortError") {
+          ac.abort();
+          return;
+        }
         console.log("for await catch", e);
         if (e instanceof Error) {
           reconnect("Response body error.", 0);
