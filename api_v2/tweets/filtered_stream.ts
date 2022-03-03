@@ -1,6 +1,7 @@
 import { addParamOption, endpoints, getUrl } from "../../util.ts";
 
 import { IncludesObject, TweetObject } from "../data_interface/tweet.ts";
+import { DisconnectedError, StreamErrorType } from "../util.ts";
 
 export interface StreamParam {
   "expansions"?: {
@@ -114,12 +115,7 @@ export interface StreamTweet {
 }
 
 interface StreamRes extends StreamTweet {
-  errors?: {
-    title: string;
-    disconnect_type: string;
-    detail: string;
-    type: string;
-  }[];
+  errors?: StreamErrorType[];
 }
 
 /**
@@ -236,9 +232,8 @@ export function connectStream(
 
             if (json.errors) {
               json.errors.forEach((e) => {
-                console.error("Error", e);
+                throw new DisconnectedError(e);
               });
-              // reconnect("Receive Error.", 10);
             } else {
               setTimeout(() => callback(json as StreamTweet), 0);
             }
@@ -247,7 +242,7 @@ export function connectStream(
           if (e instanceof DOMException && e.name === "AbortError") {
             return;
           }
-          console.log("for await catch", e);
+          console.error("for await catch", e);
           if (e instanceof Error) {
             // Once an established connection drops, attempt to reconnect immediately.
             // https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/handling-disconnections
@@ -265,7 +260,7 @@ export function connectStream(
         const reset = res.headers.get("x-rate-limit-reset");
         if (reset) {
           const resetDate = new Date(parseInt(reset) * 1000);
-          backoffTime = resetDate.getTime() - Date.now(); // + 60 * 1000;
+          backoffTime = resetDate.getTime() - Date.now() + 60 * 1000;
         }
         reconnect("429 Too Many Requests.", backoffTime / 1000);
       } else {
