@@ -1,6 +1,7 @@
 import { addParamOption, endpoints, getUrl } from "../../util.ts";
 
 import { IncludesObject, TweetObject } from "../data_interface/tweet.ts";
+import { DisconnectedError, StreamErrorType } from "../util.ts";
 
 export interface StreamParam {
   "expansions"?: {
@@ -114,12 +115,7 @@ export interface StreamTweet {
 }
 
 interface StreamRes extends StreamTweet {
-  errors?: {
-    title: string;
-    disconnect_type: string;
-    detail: string;
-    type: string;
-  }[];
+  errors?: StreamErrorType[];
 }
 
 /**
@@ -189,80 +185,91 @@ export async function getRules(bearerToken: string, ids?: string) {
  * @param {(data: StreamTweet) => void} callback
  * @param {StreamParam} [option]
  */
-export async function connectStream(
+export function connectStream(
   bearerToken: string,
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
-  abortController?: AbortController,
 ) {
-  const ac = abortController || new AbortController();
-  const reconnect = (error: string, sec: number) => {
-    console.log(error, `Reconnect after ${sec} sec...`);
-    ac.abort();
-    setTimeout(
-      () => connectStream(arguments[0], arguments[1], arguments[2]),
-      sec * 1000,
+  const ac = new AbortController();
+  setTimeout(async () => {
+    const reconnect = (error: string, sec_: number) => {
+      const sec = Math.max(1, sec_);
+      console.log(error, `Reconnect after ${sec} sec...`);
+      ac.abort();
+      setTimeout(
+        () => connectStream(arguments[0], arguments[1], arguments[2]),
+        sec * 1000,
+      );
+    };
+    const url = getUrl(endpoints.api_v2.filterd_stream.connect);
+    addParamOption(url, option);
+    //console.log(url.toString());
+    console.log("Connecting...");
+    const res = await fetch(
+      url,
+      {
+        headers: new Headers({
+          "Authorization": `Bearer ${bearerToken}`,
+        }),
+        signal: ac.signal,
+      },
     );
-  };
-  const url = getUrl(endpoints.api_v2.filterd_stream.connect);
-  addParamOption(url, option);
-  //console.log(url.toString());
-  console.log("Connecting...");
-  const res = await fetch(
-    url,
-    {
-      headers: new Headers({
-        "Authorization": `Bearer ${bearerToken}`,
-      }),
-      signal: ac.signal,
-    },
-  );
 
-  if (res.status === 200) {
-    console.log("Connected");
-    if (res.body) {
-      try {
-        for await (const a of res.body) {
-          try {
+    if (res.status === 200) {
+      console.log("Connected");
+      if (res.body) {
+        try {
+          for await (const a of res.body) {
             const data = new TextDecoder().decode(a);
             if (data === "\r\n") continue;
-            const json = JSON.parse(data) as StreamRes;
+
+            let json: StreamRes;
+            try {
+              json = JSON.parse(data) as StreamRes;
+            } catch {
+              continue;
+            }
+
             if (json.errors) {
               json.errors.forEach((e) => {
-                console.log("Error", e);
+                throw new DisconnectedError(e);
               });
-              reconnect("Receive Error.", 10);
-              return;
             } else {
-              //console.log(JSON.parse(data));
-
               setTimeout(() => callback(json as StreamTweet), 0);
             }
-          } catch (e) {
-            if (e instanceof SyntaxError) continue;
-            console.log(e);
+          }
+        } catch (e) {
+          if (e instanceof DOMException && e.name === "AbortError") {
             return;
           }
+          console.error("for await catch", e);
+          if (e instanceof Error) {
+            // Once an established connection drops, attempt to reconnect immediately.
+            // https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/handling-disconnections
+            reconnect("Response body error.", 0);
+            return;
+          } // else console.log(e);
         }
-      } catch (e) {
-        if (e instanceof DOMException && e.name === "AbortError") {
-          ac.abort();
-          return;
+      }
+    } else {
+      if (res.status === 503) {
+        reconnect("503 Service Unavaliable.", 10);
+        return;
+      } else if (res.status === 429) {
+        let backoffTime = 60 * 1000;
+        const reset = res.headers.get("x-rate-limit-reset");
+        if (reset) {
+          const resetDate = new Date(parseInt(reset) * 1000);
+          backoffTime = resetDate.getTime() - Date.now() + 60 * 1000;
         }
-        console.log("for await catch", e);
-        if (e instanceof Error) {
-          reconnect("Response body error.", 0);
-          return;
-        } // else console.log(e);
+        reconnect("429 Too Many Requests.", backoffTime / 1000);
+      } else {
+        console.log("Code:" + res.status, res, await res.json());
+        throw Error("Code:" + res.status);
       }
     }
-  } else {
-    if (res.status === 503) {
-      reconnect("503 Service Unavaliable.", 10);
-      return;
-    } else {
-      console.log("Code:" + res.status, res, await res.json());
-      throw Error("Code:" + res.status);
-    }
-  }
+  }, 0);
+  return () => {
+    ac.abort();
+  };
 }

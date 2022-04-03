@@ -75,7 +75,7 @@ async function callback(a: StreamTweet) {
 }
 
 // none option
-connectStream(bearerToken, callback);
+const disconnect = connectStream(bearerToken, callback);
 
 // with option
 connectStream(bearerToken, callback, {
@@ -84,5 +84,7 @@ connectStream(bearerToken, callback, {
   },
 });
 
+// Disconnect Stream after 10sec.
+setTimeout(() => disconnect(), 10 * 1000);
 ```
 

@@ -1,4 +1,8 @@
-const host = "https://api.twitter.com";
+let host = "https://api.twitter.com";
+
+export const setHost = (url: string) => {
+  host = url;
+};
 
 export const endpoints = {
   outh2: {
