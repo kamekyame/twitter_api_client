@@ -37,6 +37,7 @@ export const endpoints = {
 
 export const getUrl = (endPoint: string) => new URL(endPoint, host);
 
+// deno-lint-ignore ban-types
 export function addParamOption(url: URL, param: Object = {}): URL {
   for (const [key, value] of Object.entries(param)) {
     const types: string[] = [];

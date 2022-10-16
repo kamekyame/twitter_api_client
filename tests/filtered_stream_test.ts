@@ -3,13 +3,11 @@ Filtered stream : https://developer.twitter.com/en/docs/twitter-api/tweets/filte
 */
 
 import "https://deno.land/x/dotenv/load.ts";
-import { assert, assertEquals, assertObjectMatch } from "../deps-test.ts";
+import { assert, assertEquals } from "../deps-test.ts";
 
 import {
   changeRules,
-  connectStream,
   FilteredStreamRuleRes,
-  getRules,
 } from "../api_v2/tweets/filtered_stream.ts";
 import { getBearerToken } from "../auth/oauth2.ts";
 
