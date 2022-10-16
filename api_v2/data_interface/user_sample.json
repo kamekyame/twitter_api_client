@@ -1,49 +1,49 @@
 {
-    "data": [{
-        "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
-        "profile_image_url": "https://pbs.twimg.com/profile_images/1283786620521652229/lEODkLTh_normal.jpg",
-        "protected": false,
-        "url": "https://t.co/3ZX3TNiZCY",
-        "created_at": "2013-12-14T04:35:55.000Z",
-        "name": "Twitter Dev",
-        "verified": true,
-        "public_metrics": {
-            "followers_count": 511755,
-            "following_count": 2042,
-            "tweet_count": 3622,
-            "listed_count": 1650
-        },
-        "pinned_tweet_id": "1293593516040269825",
-        "username": "TwitterDev",
-        "id": "2244994945",
-        "location": "127.0.0.1",
-        "entities": {
-            "url": {
-                "urls": [{
-                    "start": 0,
-                    "end": 23,
-                    "url": "https://t.co/3ZX3TNiZCY",
-                    "expanded_url": "https://developer.twitter.com/en/community",
-                    "display_url": "developer.twitter.com/en/community"
-                }]
-            },
-            "description": {
-                "hashtags": [{
-                    "start": 17,
-                    "end": 28,
-                    "tag": "TwitterDev"
-                }, {
-                    "start": 105,
-                    "end": 116,
-                    "tag": "TwitterAPI"
-                }]
-            }
-        }
-    }],
-    "includes": {
-        "tweets": [{
-            "id": "1293593516040269825",
-            "text": "It窶冱 finally here! \uD83E\uDD41 Say hello to the new #TwitterAPI.\n\nWe窶决e rebuilding the Twitter API v2 from the ground up to better serve our developer community. And today窶冱 launch is only the beginning.\n\nhttps://t.co/32VrwpGaJw https://t.co/KaFSbjWUA8"
+  "data": [{
+    "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1283786620521652229/lEODkLTh_normal.jpg",
+    "protected": false,
+    "url": "https://t.co/3ZX3TNiZCY",
+    "created_at": "2013-12-14T04:35:55.000Z",
+    "name": "Twitter Dev",
+    "verified": true,
+    "public_metrics": {
+      "followers_count": 511755,
+      "following_count": 2042,
+      "tweet_count": 3622,
+      "listed_count": 1650
+    },
+    "pinned_tweet_id": "1293593516040269825",
+    "username": "TwitterDev",
+    "id": "2244994945",
+    "location": "127.0.0.1",
+    "entities": {
+      "url": {
+        "urls": [{
+          "start": 0,
+          "end": 23,
+          "url": "https://t.co/3ZX3TNiZCY",
+          "expanded_url": "https://developer.twitter.com/en/community",
+          "display_url": "developer.twitter.com/en/community"
         }]
+      },
+      "description": {
+        "hashtags": [{
+          "start": 17,
+          "end": 28,
+          "tag": "TwitterDev"
+        }, {
+          "start": 105,
+          "end": 116,
+          "tag": "TwitterAPI"
+        }]
+      }
     }
+  }],
+  "includes": {
+    "tweets": [{
+      "id": "1293593516040269825",
+      "text": "It窶冱 finally here! Say hello to the new #TwitterAPI.\n\nWe窶决e rebuilding the Twitter API v2 from the ground up to better serve our developer community. And today窶冱 launch is only the beginning.\n\nhttps://t.co/32VrwpGaJw https://t.co/KaFSbjWUA8"
+    }]
+  }
 }
