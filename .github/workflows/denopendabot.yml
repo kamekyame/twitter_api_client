@@ -15,7 +15,7 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-      - uses: hasundue/denopendabot@0.5.10 # @denopendabot hasundue/denopendabot
+      - uses: hasundue/denopendabot@0.6.2
         with:
           token: ${{ steps.generate_token.outputs.token }}
           user-token: ${{ steps.generate_token.outputs.token }}
