@@ -11,6 +11,7 @@ import { endpoints, getUrl } from "../../util.ts";
  * POST statuses/search/:product/:label
  * https://developer.twitter.com/en/docs/twitter-api/premium/search-api/api-reference/premium-search
  */
+// deno-lint-ignore no-explicit-any
 export type PremiumSearchParam = any;
 export type Product = Required<
   Parameters<typeof endpoints.api_v1.tweets.search>
@@ -18,6 +19,7 @@ export type Product = Required<
 export type Label = Required<
   Parameters<typeof endpoints.api_v1.tweets.search>
 >[0]["label"];
+// deno-lint-ignore no-explicit-any
 export type PremiumSearchRes = any;
 export async function PremiumSearch(
   auth: OAuth1Info | string,

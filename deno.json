@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "ci-test": "deno test --doc --no-run --import-map=./tests/import-map.json"
+  }
+}

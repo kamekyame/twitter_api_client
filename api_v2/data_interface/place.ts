@@ -7,6 +7,7 @@ export interface PlaceObject {
   geo?: {
     type: string;
     bbox: number[];
+    // deno-lint-ignore no-explicit-any
     properties: any;
   };
   name?: string;

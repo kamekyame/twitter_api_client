@@ -9,8 +9,14 @@ https://developer.twitter.com/en/docs/twitter-api/v1
 #### POST search/:product/:label
 
 ```typescript
-import { PremiumSearch } from "https://kamekyame.github.io/twitter_api_client/mod.ts";
+import { PremiumSearch } from "https://deno.land/x/twitter_api_client/mod.ts";
 
+const auth = {
+  consumerKey: "",
+  consumerSecret: "",
+  token: "",
+  tokenSecret: "",
+};
 const res = await PremiumSearch(auth, "fullarchive", "test", {
   query: "Twitter API",
 });
@@ -23,16 +29,15 @@ console.log(res);
 #### POST statuses/update
 
 ```typescript
-import { statusUpdate } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/update.ts";
+import { statusUpdate } from "https://deno.land/x/twitter_api_client/api_v1/tweets/update.ts";
 
-const res = await statusUpdate({
+const auth = {
   consumerKey: "",
   consumerSecret: "",
   token: "",
   tokenSecret: "",
-}, {
-  status: "hello world!",
-});
+};
+const res = await statusUpdate(auth, { status: "hello world!" });
 
 console.log(res);
 // res's interface is none.
@@ -42,7 +47,7 @@ console.log(res);
 #### POST statuses/retweet/:id
 
 ```typescript
-import { statusRetweet } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/retweet.ts";
+import { statusRetweet } from "https://deno.land/x/twitter_api_client/api_v1/tweets/retweet.ts";
 
 const res = await statusRetweet(
   {
@@ -67,7 +72,7 @@ console.log(res);
 #### GET statuses/home_timeline
 
 ```typescript
-import { statusHomeTimeline } from "https://kamekyame.github.io/twitter_api_client/api_v1/tweets/home_timeline.ts";
+import { statusHomeTimeline } from "https://deno.land/x/twitter_api_client/api_v1/tweets/home_timeline.ts";
 
 const res = await statusHomeTimeline({
   consumerKey: "",

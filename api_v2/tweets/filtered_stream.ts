@@ -104,6 +104,7 @@ export interface FilteredStreamRuleRes {
       valid: number;
       invalid: number;
     };
+    // deno-lint-ignore ban-types
     error?: object;
   };
 }

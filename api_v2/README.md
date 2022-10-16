@@ -1,21 +1,25 @@
 # Twitter API v2 (early access) client for Deno
+
 https://developer.twitter.com/en/docs/twitter-api/early-access
+
 ## Tweets
 
 ### Lookup
+
 #### Retrieve a single Tweet with an ID
+
 ```typescript
-import { getTweet } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/lookup.ts";
+import { getTweet } from "https://deno.land/x/twitter_api_client/api_v2/tweets/lookup.ts";
 
 const bearerToken = ""; // bearerToken
 
-const res = await getTweet(bearerToken,"1067094924124872705"/*,option*/);
+const res = await getTweet(bearerToken, "1067094924124872705" /*,option*/);
 ```
 
-
 #### Retrieve multiple Tweets with a list of IDs
+
 ```typescript
-import { getTweets } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/lookup.ts";
+import { getTweets } from "https://deno.land/x/twitter_api_client/api_v2/tweets/lookup.ts";
 
 const bearerToken = ""; // bearerToken
 
@@ -28,11 +32,13 @@ const res = await getTweets(bearerToken, {
 ### Filtered Stream
 
 #### Add or delete rules from your stream
+
 ```typescript
-import { changeRules } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
+import { changeRules } from "https://deno.land/x/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
+// Either "add" or "delete"
 const res = await changeRules(bearerToken, {
   add: [
     { value: "cat has:media", tag: "cats with media" },
@@ -40,12 +46,12 @@ const res = await changeRules(bearerToken, {
     { value: "meme", tag: "funny things" },
     { value: "meme has:images" },
   ],
-  delete: {
-    ids: [
-      "1165037377523306498",
-      "1165037377523306499",
-    ],
-  },
+  // delete: {
+  //   ids: [
+  //     "1165037377523306498",
+  //     "1165037377523306499",
+  //   ],
+  // },
 });
 
 /*
@@ -56,8 +62,9 @@ await changeRules("bearerToken","rules",true);
 ```
 
 #### Retrieve your stream's rules
+
 ```typescript
-import { getRules } from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
+import { getRules } from "https://deno.land/x/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
@@ -65,8 +72,12 @@ const res = await getRules(bearerToken);
 ```
 
 #### Connect to the stream
+
 ```typescript
-import { connectStream ,StreamTweet} from "https://kamekyame.github.io/twitter_api_client/api_v2/tweets/filtered_stream.ts";
+import {
+  connectStream,
+  StreamTweet,
+} from "https://deno.land/x/twitter_api_client/api_v2/tweets/filtered_stream.ts";
 
 const bearerToken = ""; // bearerToken
 
@@ -87,4 +98,3 @@ connectStream(bearerToken, callback, {
 // Disconnect Stream after 10sec.
 setTimeout(() => disconnect(), 10 * 1000);
 ```
-

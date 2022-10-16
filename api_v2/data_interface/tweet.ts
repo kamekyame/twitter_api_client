@@ -60,6 +60,7 @@ export interface TweetObject {
   possivly_sensitive?: boolean;
   lang?: string;
   source?: string;
+  // deno-lint-ignore ban-types
   errors?: Object;
 }
 
