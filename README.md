@@ -2,7 +2,8 @@
 
 ![](https://img.shields.io/github/v/release/kamekyame/twitter_api_client)
 
-> ⚠️ **Important** This client is incomplete and breaking changes in the future. When you use this, beware of version updates.
+> ⚠️ **Important** This client is incomplete and breaking changes in the future.
+> When you use this, beware of version updates.
 
 ## Features
 
@@ -19,20 +20,20 @@ See each README.
 ## Implemented
 
 - v1.1
-    - Tweets
-        - search/:product/:label (Premium)
-        - statuses/update
-        - statuses/retweet
-        - statuses/home_timeline
+  - Tweets
+    - search/:product/:label (Premium)
+    - statuses/update
+    - statuses/retweet
+    - statuses/home_timeline
 - v2
-    - Tweets
-        - Lookup
-        - Filtered stream
+  - Tweets
+    - Lookup
+    - Filtered stream
 
 ## Contribute
 
-This client is imcomplete. So bug fix and new feature is welcome.
-Feel free to issue, PR.
+This client is imcomplete. So bug fix and new feature is welcome. Feel free to
+issue, PR.
 
 ## License
 

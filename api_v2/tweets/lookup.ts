@@ -100,7 +100,7 @@ export interface TweetParam {
  * @export
  * @param {string} bearerToken
  * @param {TweetsParam} param
- * @return {TweetsResponse} 
+ * @return {TweetsResponse}
  */
 
 export async function getTweets(bearerToken: string, param: TweetsParam) {
@@ -125,7 +125,7 @@ export async function getTweets(bearerToken: string, param: TweetsParam) {
  * @param {string} bearerToken
  * @param {string} id
  * @param {TweetParam} [param]
- * @return {TweetResponse} 
+ * @return {TweetResponse}
  */
 export async function getTweet(
   bearerToken: string,
