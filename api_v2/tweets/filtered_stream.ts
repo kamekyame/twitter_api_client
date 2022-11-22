@@ -3,6 +3,8 @@ import { addParamOption, endpoints, getUrl } from "../../util.ts";
 import { IncludesObject, TweetObject } from "../data_interface/tweet.ts";
 import { DisconnectedError, StreamErrorType } from "../util.ts";
 
+const INITIAL_BACKOFF_TIME = 60 * 1000;
+
 export interface StreamParam {
   "expansions"?: {
     "attachments.poll_ids"?: boolean;
@@ -191,17 +193,35 @@ export function connectStream(
   callback: (data: StreamTweet) => void,
   option?: StreamParam,
 ) {
+  return connectStreamBase(bearerToken, callback, option, {
+    backoffTime: INITIAL_BACKOFF_TIME,
+  });
+}
+
+export function connectStreamBase(
+  bearerToken: string,
+  callback: (data: StreamTweet) => void,
+  option: StreamParam | undefined,
+  rawOption: {
+    backoffTime: number;
+  },
+) {
   const ac = new AbortController();
+
+  const reconnect = (error: string, sec_: number) => {
+    const sec = Math.max(1, sec_);
+    console.log(error, `Reconnect after ${sec} sec...`);
+    ac.abort();
+    setTimeout(
+      () =>
+        connectStreamBase(arguments[0], arguments[1], arguments[2], {
+          backoffTime: rawOption.backoffTime * 2,
+        }),
+      sec * 1000,
+    );
+  };
+
   setTimeout(async () => {
-    const reconnect = (error: string, sec_: number) => {
-      const sec = Math.max(1, sec_);
-      console.log(error, `Reconnect after ${sec} sec...`);
-      ac.abort();
-      setTimeout(
-        () => connectStream(arguments[0], arguments[1], arguments[2]),
-        sec * 1000,
-      );
-    };
     const url = getUrl(endpoints.api_v2.filterd_stream.connect);
     addParamOption(url, option);
     //console.log(url.toString());
@@ -257,15 +277,20 @@ export function connectStream(
         reconnect("503 Service Unavaliable.", 10);
         return;
       } else if (res.status === 429) {
-        let backoffTime = 60 * 1000;
         const reset = res.headers.get("x-rate-limit-reset");
-        if (reset) {
-          const resetDate = new Date(parseInt(reset) * 1000);
-          backoffTime = resetDate.getTime() - Date.now() + 60 * 1000;
+        const remaining = res.headers.get("x-rate-limit-remaining");
+        // console.log(`429 error : ${reset}, ${limit}, ${remaining}`);
+
+        let backoffTime = rawOption.backoffTime;
+        if (reset && remaining) {
+          if (parseInt(remaining) <= 0) {
+            const resetDate = new Date(parseInt(reset) * 1000);
+            backoffTime = resetDate.getTime() - Date.now() + 60 * 1000;
+          }
         }
         reconnect("429 Too Many Requests.", backoffTime / 1000);
       } else {
-        console.log("Code:" + res.status, res, await res.json());
+        console.error("Code:" + res.status, res, await res.json());
         throw Error("Code:" + res.status);
       }
     }
