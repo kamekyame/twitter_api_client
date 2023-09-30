@@ -5,6 +5,13 @@ export const setHost = (url: string) => {
 };
 
 export const endpoints = {
+  oauth: {
+    requestToken: "/oauth/request_token",
+    authenticate: "/oauth/authenticate",
+    authorize: "/oauth/authorize",
+    accessToken: "/oauth/access_token",
+    invalidateToken: "/oauth/invalidate_token",
+  },
   outh2: {
     getToken: "/oauth2/token",
   },
@@ -31,6 +38,9 @@ export const endpoints = {
     filterd_stream: {
       rules: "/2/tweets/search/stream/rules",
       connect: "/2/tweets/search/stream",
+    },
+    users: {
+      me: "/2/users/me",
     },
   },
 };

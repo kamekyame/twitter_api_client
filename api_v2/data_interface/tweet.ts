@@ -71,3 +71,25 @@ export interface IncludesObject {
   media?: MediaObject[];
   polls?: PollObject;
 }
+
+export interface SelectTweetFields {
+  "attachments"?: boolean;
+  "author_id"?: boolean;
+  "context_annotations"?: boolean;
+  "conversation_id"?: boolean;
+  "created_at"?: boolean;
+  "entities"?: boolean;
+  "geo"?: boolean;
+  "id"?: boolean;
+  "in_reply_to_user_id"?: boolean;
+  "lang"?: boolean;
+  "non_public_metrics"?: boolean;
+  "public_metrics"?: boolean;
+  "organic_metrics"?: boolean;
+  "promoted_metrics"?: boolean;
+  "possibly_sensitive"?: boolean;
+  "referenced_tweets"?: boolean;
+  "source"?: boolean;
+  "text"?: boolean;
+  "withheld"?: boolean;
+}
