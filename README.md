@@ -4,7 +4,7 @@
 
 > 🛑 **Notice** This package is no longer maintained, as Deno now supports npm
 > packages. Please consider using a library such as
-> [twitter-api-client-v2](https://www.npmjs.com/package/twitter-api-v2).
+> [twitter-api-v2](https://www.npmjs.com/package/twitter-api-v2).
 
 > ⚠️ **Important** This client is incomplete and breaking changes in the future.
 > When you use this, beware of version updates.
